@@ -1,4 +1,4 @@
-package com.hyosik.android.movie
+package com.hyosik.android.movie.presentation.home
 
 import android.app.Activity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import com.hyosik.android.movie.BaseFragment
 
 import com.hyosik.android.movie.databinding.FragmentHomeBinding
 

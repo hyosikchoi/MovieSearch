@@ -1,16 +1,12 @@
-package com.hyosik.android.movie
+package com.hyosik.android.movie.presentation
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.hyosik.android.movie.BaseActivity
+import com.hyosik.android.movie.R
 import com.hyosik.android.movie.databinding.ActivityMainBinding
+import com.hyosik.android.movie.presentation.home.HomeFragment
+import com.hyosik.android.movie.presentation.mypage.MyPageFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -26,12 +22,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         bottomNav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.menu_home -> {
-                    selectFragment(HomeFragment(),HomeFragment.TAG)
+                    selectFragment(HomeFragment(), HomeFragment.TAG)
                     true
                 }
 
                 R.id.menu_mypage -> {
-                    selectFragment(MyPageFragment(),MyPageFragment.TAG)
+                    selectFragment(MyPageFragment(), MyPageFragment.TAG)
                     true
                 }
 
@@ -47,7 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         findFragment?.let {
             supportFragmentManager.beginTransaction().show(it).commit()
-        } ?: kotlin.run { supportFragmentManager.beginTransaction().add(R.id.fragmentContainer , fragment , tag).commitAllowingStateLoss() }
+        } ?: kotlin.run { supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, fragment , tag).commitAllowingStateLoss() }
     }
 
 }

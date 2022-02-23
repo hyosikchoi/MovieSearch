@@ -1,7 +1,8 @@
-package com.hyosik.android.movie
+package com.hyosik.android.movie.presentation.mypage
 
 import android.os.Bundle
 import android.view.View
+import com.hyosik.android.movie.BaseFragment
 import com.hyosik.android.movie.databinding.FragmentMypageBinding
 
 
