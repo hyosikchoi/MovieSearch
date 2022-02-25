@@ -6,4 +6,6 @@ data class MovieDTO(
     val lastBuildDate: String,
     val start: Int,
     val total: Int
-)
+) {
+    constructor() : this(0 , emptyList() , "" , 0 , 0)
+}

@@ -1,14 +1,21 @@
 package com.hyosik.android.movie.presentation
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.hyosik.android.movie.BaseActivity
 import com.hyosik.android.movie.R
 import com.hyosik.android.movie.databinding.ActivityMainBinding
 import com.hyosik.android.movie.presentation.home.HomeFragment
 import com.hyosik.android.movie.presentation.mypage.MyPageFragment
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
+
 
     override fun getViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
 
