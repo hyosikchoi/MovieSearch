@@ -10,3 +10,4 @@ data class Movie(
     val title: String,
     val userRating: String
 )
+

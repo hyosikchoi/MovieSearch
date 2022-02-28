@@ -22,6 +22,7 @@ class HomeViewModel @Inject constructor(
 
     fun searchMovie(query : String , display : Int)  = viewModelScope.launch {
         try {
+            _movieListStateLiveData.postValue(MovieState.Loading)
             getMovieDtoUseCase(query = query , display = display).also {
                 _movieListStateLiveData.postValue(MovieState.Success(it))
             }

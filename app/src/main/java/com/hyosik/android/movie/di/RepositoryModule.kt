@@ -7,6 +7,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import okhttp3.Dispatcher
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -20,5 +24,6 @@ class RepositoryModule {
     ) : MovieRepository {
         return DefaultMovieRepository(apiService = apiService)
     }
+
 
 }

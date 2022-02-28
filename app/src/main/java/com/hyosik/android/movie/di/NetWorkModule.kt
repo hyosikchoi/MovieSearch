@@ -40,11 +40,7 @@ class NetWorkModule {
     @Provides
     @Singleton
     fun provideGsonConverterFactory() : GsonConverterFactory {
-        return GsonConverterFactory.create(
-            GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create()
-        )
+        return GsonConverterFactory.create()
     }
 
     @Provides

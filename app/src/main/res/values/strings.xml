@@ -2,4 +2,5 @@
     <string name="app_name">Movie</string>
     <string name="home">홈</string>
     <string name="mypage">마이페이지</string>
+    <string name="no_information">정보 없음</string>
 </resources>
