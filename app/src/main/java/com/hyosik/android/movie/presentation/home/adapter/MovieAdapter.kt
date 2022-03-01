@@ -1,5 +1,6 @@
 package com.hyosik.android.movie.presentation.home.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,18 +13,26 @@ import com.hyosik.android.movie.databinding.ItemMovieBinding
 
 class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieItemViewHolder>(diffUtil) {
 
+    private lateinit var movieItemClickListener : (Movie) -> Unit
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieItemViewHolder {
-        return MovieItemViewHolder(ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent , false))
+        return MovieItemViewHolder(ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent , false),movieItemClickListener)
     }
 
     override fun onBindViewHolder(holder: MovieItemViewHolder, position: Int) {
 
         holder.bind(currentList[position])
-
+        holder.bindOnClick(currentList[position])
     }
 
+    fun setMovieOnClickListener(movieItemClickListener : (Movie) -> Unit) {
+        this.movieItemClickListener = movieItemClickListener
+    }
 
-    inner class MovieItemViewHolder(private val binding : ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MovieItemViewHolder(
+        private val binding : ItemMovieBinding,
+        private val movieItemClickListener : (Movie) -> Unit
+        ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie : Movie) = with(binding) {
             titleTextView.text = movie.title.replace("<b>" , "").replace("</b>" , "")
@@ -32,6 +41,13 @@ class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieItemViewHolder>(diffUt
             Glide.with(thumbNailImageView.context).load(movie.image).error(R.drawable.ic_image_not_supported).into(thumbNailImageView)
 
         }
+
+        fun bindOnClick(movie: Movie) = with(binding) {
+            root.setOnClickListener {
+                movieItemClickListener(movie)
+            }
+        }
+
     }
 
 

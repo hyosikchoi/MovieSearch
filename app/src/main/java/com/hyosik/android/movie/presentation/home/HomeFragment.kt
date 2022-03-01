@@ -99,6 +99,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         Log.d("Main" , movieDTO.toString())
         if(movieDTO.items.isNotEmpty()) {
             movieAdapter.submitList(movieDTO.items)
+            movieAdapter.setMovieOnClickListener { movie ->
+                Log.d("Main" , movie.toString())
+            }
             resultTextView.isGone = true
             recyclerView.isGone = false
             progressBar.isGone = true
