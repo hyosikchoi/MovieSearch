@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "854026649200",
+    "firebase_url": "https://movie-sns-login-default-rtdb.firebaseio.com",
+    "project_id": "movie-sns-login",
+    "storage_bucket": "movie-sns-login.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854026649200:android:9fad063a2b6f1aa2a7beb5",
+        "android_client_info": {
+          "package_name": "com.hyosik.android.movie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854026649200-fd74jbqdr522lvng5tccqt80ekeqpv81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN2v3s-tl1ZPs0nOD78hEbJU1zm6YSMXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854026649200-fd74jbqdr522lvng5tccqt80ekeqpv81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
