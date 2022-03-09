@@ -31,8 +31,4 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun setState(state : MovieState) {
-        _movieListStateLiveData.postValue(state)
-    }
-
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.hyosik.android.movie.BaseActivity
 import com.hyosik.android.movie.R
 import com.hyosik.android.movie.databinding.ActivityMainBinding
+import com.hyosik.android.movie.presentation.detail.MovieDetailFragment
 import com.hyosik.android.movie.presentation.home.HomeFragment
 import com.hyosik.android.movie.presentation.mypage.MyPageFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,12 +42,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 else -> false
             }
         }
+
+        supportFragmentManager.beginTransaction().replace(R.id.detail_fragment_container , MovieDetailFragment(), MovieDetailFragment.TAG)
+            .commit()
+
     }
 
     private fun selectFragment(fragment : Fragment , tag : String) {
         val findFragment = supportFragmentManager.findFragmentByTag(tag)
         supportFragmentManager.fragments.forEach { fm ->
-            supportFragmentManager.beginTransaction().hide(fm).commit()
+            if(fm !is MovieDetailFragment) supportFragmentManager.beginTransaction().hide(fm).commit()
         }
         findFragment?.let {
             supportFragmentManager.beginTransaction().show(it).commit()

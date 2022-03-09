@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hyosik.android.movie.CustomMotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movieMotionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_movie_detail_scene">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainContainerLayout"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:background="@color/teal_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/movieImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/teal_200"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/mainContainerLayout"
+        app:layout_constraintStart_toStartOf="@+id/mainContainerLayout"
+        app:layout_constraintTop_toTopOf="@+id/mainContainerLayout" />
+
+    <ImageView
+        android:id="@+id/bottomCloseImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        app:layout_constraintTop_toTopOf="@+id/mainContainerLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/mainContainerLayout"
+        app:layout_constraintEnd_toEndOf="@+id/mainContainerLayout"
+        android:layout_marginEnd="24dp"/>
+
+    <TextView
+        android:id="@+id/bottomMovieTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/movieImageView"
+        app:layout_constraintTop_toTopOf="@+id/bottomCloseImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomCloseImageView"
+        app:layout_constraintEnd_toStartOf="@+id/bottomCloseImageView"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/black"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="12dp"
+        tools:text="제목을 입력해주세요."
+        />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/movieDetailConstraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@+id/mainContainerLayout"
+        app:layout_constraintEnd_toEndOf="@+id/mainContainerLayout"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/mainContainerLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/movieTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="15dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/movieActorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitleTextView"
+            android:layout_marginTop="15dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/moviePubDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieActorTextView"
+            android:layout_marginTop="15dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/movieUserRateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moviePubDateTextView"
+            android:layout_marginTop="15dp"
+            android:textSize="22sp"
+            android:textColor="@color/black"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.hyosik.android.movie.CustomMotionLayout>

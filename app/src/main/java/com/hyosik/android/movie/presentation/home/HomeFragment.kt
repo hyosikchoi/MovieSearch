@@ -13,6 +13,8 @@ import com.hyosik.android.movie.data.model.MovieDTO
 
 import com.hyosik.android.movie.databinding.FragmentHomeBinding
 import com.hyosik.android.movie.extensions.toastShort
+import com.hyosik.android.movie.presentation.MainActivity
+import com.hyosik.android.movie.presentation.detail.MovieDetailFragment
 import com.hyosik.android.movie.presentation.home.adapter.MovieAdapter
 import com.hyosik.android.movie.presentation.home.state.MovieState
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,8 +101,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         Log.d("Main" , movieDTO.toString())
         if(movieDTO.items.isNotEmpty()) {
             movieAdapter.submitList(movieDTO.items)
+            /** Movie 클릭 시 MovieDetailFragment 로 Movie data 전송 */
             movieAdapter.setMovieOnClickListener { movie ->
-                Log.d("Main" , movie.toString())
+                (activity as MainActivity).supportFragmentManager.fragments.find { it is MovieDetailFragment}?.let {
+                    (it as MovieDetailFragment).setMovie(
+                        movie.image,
+                        movie.actor,
+                        movie.pubDate,
+                        movie.userRating,
+                        movie.title.replace("<b>" , "").replace("</b>" , ""))
+                }
             }
             resultTextView.isGone = true
             recyclerView.isGone = false
