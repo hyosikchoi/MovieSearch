@@ -1,5 +1,6 @@
 package com.hyosik.android.movie.di
 
+import com.facebook.CallbackManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -15,5 +16,10 @@ class FirebaseModule {
     @Singleton
     fun provideFirebaseAuth() : FirebaseAuth
     = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideCallbackManager() : CallbackManager
+    = CallbackManager.Factory.create()
 
 }

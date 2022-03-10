@@ -4,6 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.hyosik.android.movie.BaseFragment
 import com.hyosik.android.movie.databinding.FragmentMypageBinding
@@ -22,6 +27,9 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
 
     @Inject
     lateinit var auth : FirebaseAuth
+
+    @Inject
+    lateinit var callbackManager : CallbackManager
 
     override fun getViewBinding(): FragmentMypageBinding = FragmentMypageBinding.inflate(layoutInflater)
 
@@ -71,6 +79,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     }
 
     private fun initLogin() = with(binding) {
+        /** 이메일 로그인 */
         loginButton.setOnClickListener {
 
             if(auth.currentUser == null) {
@@ -94,12 +103,43 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
                 pwEditTextView.isEnabled = true
             }
         }
+        /** Facebook 유저의 가져올 정보 permission */
+        facebookLoginButton.setPermissions("email","public_profile")
+
+        /** Facebook 로그인 */
+        facebookLoginButton.registerCallback(callbackManager , object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                    Log.d("facebook" , result.toString())
+                    val credential = FacebookAuthProvider.getCredential(result.accessToken.token)
+
+                    auth.signInWithCredential(credential)
+                        .addOnCompleteListener(requireActivity()) { task ->
+                            // TODO 추후 로그인 페이지를 BottomSheet 로 바꾸고 로그인 시 finish 하게끔 수정
+                            if(task.isSuccessful) context?.let{it.toastShort("페이스북 로그인에 성공했습니다.")}
+                            else context?.let{it.toastShort("페이스북 로그인에 실패했습니다.")}
+                        }
+            }
+
+            override fun onCancel() {}
+            override fun onError(error: FacebookException) {
+                context?.let{it.toastShort("페이스북 로그인에 실패했습니다.")}
+            }
+        })
     }
 
     private fun successLogin() = with(binding) {
         loginButton.text = "로그아웃"
         signUpButton.isEnabled = false
         loginButton.isEnabled = true
+        idEditTextView.text?.clear()
+        pwEditTextView.text?.clear()
+        idEditTextView.isEnabled = false
+        pwEditTextView.isEnabled = false
+    }
+
+    private fun successLoginFacebook() = with(binding) {
+        signUpButton.isEnabled = false
+        loginButton.isEnabled = false
         idEditTextView.text?.clear()
         pwEditTextView.text?.clear()
         idEditTextView.isEnabled = false
