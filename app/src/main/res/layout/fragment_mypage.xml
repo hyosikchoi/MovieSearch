@@ -2,7 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/loginViewGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="gone"
+        android:visibility="visible"
+        app:constraint_referenced_ids="idIntputLayout,facebookLoginButton,loginButton,pwInputLayout,signUpButton"
+    />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/logoutViewGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="logOutButton,emailTitleTextView,emailTextView"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idIntputLayout"
@@ -28,7 +47,6 @@
             android:maxLength="25"
             android:hint="@string/hint_id"
             android:paddingStart="10dp"
-
             />
 
 
@@ -74,6 +92,7 @@
         app:layout_constraintEnd_toStartOf="@id/loginButton"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
+        android:enabled="false"
         android:text="@string/signUp"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -83,8 +102,8 @@
         app:layout_constraintEnd_toEndOf="@id/pwInputLayout"
         app:layout_constraintTop_toBottomOf="@id/pwInputLayout"
         android:layout_marginTop="15dp"
+        android:enabled="false"
         android:text="@string/login"/>
-
 
 
     <com.facebook.login.widget.LoginButton
@@ -98,6 +117,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpButton"
         />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:id="@+id/emailTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/logOutButton"
+        app:layout_constraintBottom_toBottomOf="@+id/logOutButton"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="aaaaaa@aaaaaa.com"
+        android:textSize="15sp"
+        android:layout_marginStart="5dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/emailTitleTextView"
+        app:layout_constraintTop_toTopOf="@+id/logOutButton"
+        app:layout_constraintBottom_toBottomOf="@+id/logOutButton"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

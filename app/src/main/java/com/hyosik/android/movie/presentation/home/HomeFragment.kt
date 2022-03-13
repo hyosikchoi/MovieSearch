@@ -53,13 +53,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         searchButton.setOnClickListener {
-
-            context?.let {
-                val imm = (it.getSystemService(Activity.INPUT_METHOD_SERVICE)) as InputMethodManager
-                imm.hideSoftInputFromWindow(searchText.windowToken,0)
-            }
+            val imm = (requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE)) as InputMethodManager
+            val isHide = imm.hideSoftInputFromWindow(searchText.windowToken,0)
             Log.d("Main", searchText.text.toString())
-            viewModel.searchMovie(searchText.text.toString() , 10)
+            if(isHide) viewModel.searchMovie(searchText.text.toString() , 10)
         }
 
     }

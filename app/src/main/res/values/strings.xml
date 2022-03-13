@@ -5,8 +5,9 @@
     <string name="no_information">정보 없음</string>
     <string name="none">모름</string>
     <string name="hint_id">아이디를 입력해주세요.</string>
-    <string name="hint_password">비밀번호를 입력해주세요.</string>
+    <string name="hint_password">비밀번호를 입력해주세요.(6자리 이상)</string>
     <string name="signUp">회원가입</string>
     <string name="login">로그인</string>
     <string name="facebook_app_id">442578150996511</string> <string name="fb_login_protocol_scheme">fb442578150996511</string>
+    <string name="logout">로그아웃</string>
 </resources>
