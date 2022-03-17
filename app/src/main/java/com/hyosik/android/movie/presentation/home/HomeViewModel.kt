@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.hyosik.android.movie.domain.GetMovieDtoUseCase
 import com.hyosik.android.movie.presentation.home.state.MovieState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
@@ -15,20 +16,23 @@ class HomeViewModel @Inject constructor(
     private val getMovieDtoUseCase: GetMovieDtoUseCase
 ) : ViewModel() {
 
-    private var _movieListStateLiveData = MutableLiveData<MovieState>(MovieState.UnInitialized)
+    private var _movieListStateFlow = MutableStateFlow<MovieState>(MovieState.UnInitialized)
 
-    val movieListStateLiveData : LiveData<MovieState> = _movieListStateLiveData
+    val movieListStateFlow : StateFlow<MovieState> = _movieListStateFlow
 
 
     fun searchMovie(query : String , display : Int)  = viewModelScope.launch {
-        try {
-            _movieListStateLiveData.postValue(MovieState.Loading)
-            getMovieDtoUseCase(query = query , display = display).also {
-                _movieListStateLiveData.postValue(MovieState.Success(it))
+
+        getMovieDtoUseCase(query = query , display = display)
+            .onStart {
+                _movieListStateFlow.value = MovieState.Loading
             }
-        } catch (e: Exception) {
-            _movieListStateLiveData.postValue(MovieState.Error)
-        }
+            .catch { exception ->
+                _movieListStateFlow.value = MovieState.Error
+            }
+            .collect { movieDTO ->
+                _movieListStateFlow.value = MovieState.Success(movieDTO)
+            }
     }
 
 }
