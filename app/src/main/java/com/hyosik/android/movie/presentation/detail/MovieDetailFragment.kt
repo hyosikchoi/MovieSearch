@@ -1,6 +1,7 @@
 package com.hyosik.android.movie.presentation.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import com.bumptech.glide.Glide
@@ -49,7 +50,23 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding>() {
                 }
             }
 
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {}
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+//                Log.d("id" , currentId.toString())
+                when(currentId) {
+                    /** transitionEnd() 지점 */
+                    2131230925 -> {
+                        (activity as MainActivity).also { mainActivity ->
+                            mainActivity.binding.mainMotionLayout.progress = 1.0f
+                        }
+                    }
+                    /** transitionStart() 지점 */
+                    2131231185 -> {
+                        (activity as MainActivity).also { mainActivity ->
+                            mainActivity.binding.mainMotionLayout.progress = 0.0f
+                        }
+                    }
+                }
+            }
 
             override fun onTransitionTrigger(
                 motionLayout: MotionLayout?,
