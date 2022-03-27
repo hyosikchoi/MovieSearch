@@ -12,11 +12,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -64,5 +67,16 @@ class NetWorkModule {
         return retrofit.create(ApiService::class.java)
     }
 
+    @Provides
+    @Named("IO")
+    fun provideIODispatcher() : CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Named("Main")
+    fun provideMainDispatcher() : CoroutineDispatcher = Dispatchers.Main
+
+    @Provides
+    @Named("Default")
+    fun provideDefaultDispatcher() : CoroutineDispatcher = Dispatchers.Default
 
 }

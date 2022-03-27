@@ -28,6 +28,8 @@ android {
 
         buildConfigField("String" , "CLIENT_ID" , NAVER_CLIENT_ID)
         buildConfigField("String" , "CLIENT_SECRET" , NAVER_CLIENT_SECRET)
+        buildConfigField("String" , "USER_DB_KEY" , USER_DB)
+
 
     }
     // Did you forget to apply the Gradle Plugin? 에러 해결
@@ -109,5 +111,11 @@ dependencies {
 
     // Facebook Login
     implementation 'com.facebook.android:facebook-login:13.0.0'
+
+    // Firebase RealTime db
+    implementation 'com.google.firebase:firebase-database-ktx'
+
+    // Firebase Auth coroutine services(coroutine의 확장함수 await() 를 사용할 수 있다.)
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0'
 
 }

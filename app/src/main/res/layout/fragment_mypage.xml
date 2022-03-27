@@ -18,7 +18,7 @@
         android:id="@+id/logoutViewGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="logOutButton,emailTitleTextView,emailTextView"
+        app:constraint_referenced_ids="logOutButton,emailTitleTextView,emailTextView,mySearchTextView"
         android:visibility="gone"
         tools:visibility="visible"
         />
@@ -152,6 +152,32 @@
         app:layout_constraintStart_toEndOf="@+id/emailTitleTextView"
         app:layout_constraintTop_toTopOf="@+id/logOutButton"
         app:layout_constraintBottom_toBottomOf="@+id/logOutButton"/>
+
+    <TextView
+        android:id="@+id/mySearchTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내가 검색한 영화"
+        app:layout_constraintTop_toBottomOf="@+id/emailTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="15dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
