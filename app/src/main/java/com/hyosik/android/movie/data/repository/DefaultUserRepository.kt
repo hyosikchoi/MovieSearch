@@ -19,27 +19,48 @@ import kotlin.coroutines.suspendCoroutine
 
 class DefaultUserRepository @Inject constructor(
     private val auth: FirebaseAuth,
-    private val userDb: DatabaseReference
+    private val userDB: DatabaseReference
 ) : UserRepository {
 
     override suspend fun signUpUser(id: String, pw: String): Flow<FirebaseUser> =
         flow<FirebaseUser> {
             val response = auth.createUserWithEmailAndPassword(id, pw).await()
-            //TODO userDB 에 업데이트
-            emit(response.user!!)
+            response.user?.let { firebaseUser ->
+                saveUserDB(firebaseUser)
+                emit(firebaseUser)
+            }
         }
 
     override suspend fun signInUser(id: String, pw: String): Flow<FirebaseUser> =
         flow<FirebaseUser> {
             val response = auth.signInWithEmailAndPassword(id, pw).await()
-            emit(response.user!!)
+            response.user?.let { firebaseUser ->
+                saveUserDB(firebaseUser)
+                emit(firebaseUser)
+            }
         }
 
     override suspend fun signInFaceBook(authCredential: AuthCredential): Flow<FirebaseUser> =
         flow<FirebaseUser> {
            val response =  auth.signInWithCredential(authCredential).await()
-            emit(response.user!!)
+            response.user?.let { firebaseUser ->
+                saveUserDB(firebaseUser)
+                emit(firebaseUser)
+            }
         }
 
+    private fun saveUserDB(firebaseUser: FirebaseUser) {
+        val userId = firebaseUser.uid.orEmpty()
+        val userEmail = firebaseUser.email.orEmpty()
+
+        val updateUserDB = userDB.child(userId)
+        val user = mutableMapOf<String,  Any>()
+        user["userId"] = userId
+        user["userEmail"] = userEmail
+        auth.currentUser?.providerData?.forEach { userInfo ->
+            user["userSnsType"] = userInfo.providerId
+        }
+        updateUserDB.updateChildren(user)
+    }
 
 }

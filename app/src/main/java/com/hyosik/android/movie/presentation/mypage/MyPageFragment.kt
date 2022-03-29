@@ -40,9 +40,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     lateinit var auth : FirebaseAuth
 
     @Inject
-    lateinit var userDB : DatabaseReference
-
-    @Inject
     lateinit var callbackManager : CallbackManager
 
     private val viewModel: MyPageViewModel by viewModels()
@@ -169,19 +166,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
         pwEditTextView.text?.clear()
         idEditTextView.isEnabled = false
         pwEditTextView.isEnabled = false
-        //TODO userDB 업데이트를 data layer 에서 하도록 수정
-        val userId = user.uid.orEmpty()
-        val userEmail = user.email.orEmpty()
-
-        val updateUserDB = userDB.child(userId)
-        val user = mutableMapOf<String,  Any>()
-        user["userId"] = userId
-        user["userEmail"] = userEmail
-        auth.currentUser?.providerData?.forEach { userInfo ->
-            user["userSnsType"] = userInfo.providerId
-        }
-        updateUserDB.updateChildren(user)
-
     }
 
     private fun setVisibleViewGroup() = with(binding) {

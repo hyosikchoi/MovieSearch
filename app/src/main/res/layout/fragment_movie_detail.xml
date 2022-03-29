@@ -62,6 +62,7 @@
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/mainContainerLayout"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:clickable="true"
         >
 
         <TextView
