@@ -50,17 +50,14 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding>() {
                 }
             }
 
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-//                Log.d("id" , currentId.toString())
-                when(currentId) {
-                    /** transitionEnd() 지점 */
-                    2131230925 -> {
+            override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) {
+                when {
+                    motionLayout.progress > 0.9f -> {
                         (activity as MainActivity).also { mainActivity ->
                             mainActivity.binding.mainMotionLayout.progress = 1.0f
                         }
                     }
-                    /** transitionStart() 지점 */
-                    2131231185 -> {
+                    motionLayout.progress < 0.2f -> {
                         (activity as MainActivity).also { mainActivity ->
                             mainActivity.binding.mainMotionLayout.progress = 0.0f
                         }
