@@ -9,5 +9,7 @@ data class Movie(
     val subtitle: String,
     val title: String,
     val userRating: String
-)
+) {
+    constructor() : this("" ,"" ,"" ,"" ,"" ,"" ,"" ,"")
+}
 

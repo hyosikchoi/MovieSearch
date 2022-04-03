@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.hyosik.android.movie.R
 import com.hyosik.android.movie.data.model.Movie
 import com.hyosik.android.movie.databinding.ItemMovieBinding
+import com.hyosik.android.movie.extensions.replaceMultipleBlank
+
 
 class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieItemViewHolder>(diffUtil) {
 
@@ -35,7 +37,7 @@ class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieItemViewHolder>(diffUt
         ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie : Movie) = with(binding) {
-            titleTextView.text = movie.title.replace("<b>" , "").replace("</b>" , "")
+            titleTextView.text = movie.title.replaceMultipleBlank("<b>","</b>")
             publishTextView.text = if(movie.pubDate.isNullOrEmpty()) publishTextView.context.getString(R.string.no_information) else movie.pubDate
 
             Glide.with(thumbNailImageView.context).load(movie.image).error(R.drawable.ic_image_not_supported).into(thumbNailImageView)
@@ -60,7 +62,7 @@ class MovieAdapter : ListAdapter<Movie, MovieAdapter.MovieItemViewHolder>(diffUt
             }
 
             override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem.link == newItem.link
+                return oldItem.image == newItem.image
             }
         }
 

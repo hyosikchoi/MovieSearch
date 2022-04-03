@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
+import com.hyosik.android.movie.data.model.Movie
+import com.hyosik.android.movie.domain.DeleteSeeMovieUseCase
 import com.hyosik.android.movie.domain.GetCurrentUserUseCase
 import com.hyosik.android.movie.domain.GetFacebookUserUseCase
 import com.hyosik.android.movie.domain.GetSignUpCurrentUserUseCase
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getSignUpCurrentUserUseCase: GetSignUpCurrentUserUseCase,
-    private val getFacebookUserUseCase: GetFacebookUserUseCase
+    private val getFacebookUserUseCase: GetFacebookUserUseCase,
+    private val deleteSeeMovieUseCase: DeleteSeeMovieUseCase
 ) : ViewModel() {
     private var _currentUserStateFlow = MutableStateFlow<MypageState>(MypageState.UnInitialized)
 
@@ -48,6 +51,10 @@ class MyPageViewModel @Inject constructor(
             .catch { cause: Throwable ->
                 _currentUserStateFlow.value = MypageState.Error(cause.message.toString())}
             .collect { _currentUserStateFlow.value = MypageState.Success(it)}
+    }
+
+    fun deleteSeeMovie(movie : Movie) = viewModelScope.launch {
+        deleteSeeMovieUseCase(movie = movie)
     }
 
 }

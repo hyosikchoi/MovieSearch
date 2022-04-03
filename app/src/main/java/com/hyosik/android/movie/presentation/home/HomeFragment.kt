@@ -11,11 +11,13 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
 
 import com.hyosik.android.movie.BaseFragment
 import com.hyosik.android.movie.data.model.MovieDTO
 
 import com.hyosik.android.movie.databinding.FragmentHomeBinding
+import com.hyosik.android.movie.extensions.replaceMultipleBlank
 import com.hyosik.android.movie.extensions.toastShort
 import com.hyosik.android.movie.presentation.MainActivity
 import com.hyosik.android.movie.presentation.detail.MovieDetailFragment
@@ -38,6 +40,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     companion object {
         const val TAG = "HomeFragment"
     }
+
+    @Inject
+    lateinit var auth : FirebaseAuth
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -119,9 +124,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                             movie.actor,
                             movie.pubDate,
                             movie.userRating,
-                            movie.title.replace("<b>", "").replace("</b>", "")
+                            movie.title.replaceMultipleBlank("<b>","</b>")
                         )
                     }
+                if(auth.currentUser != null) {
+                    viewModel.saveSeeMovie(movie)
+                }
             }
             resultTextView.isGone = true
             recyclerView.isGone = false

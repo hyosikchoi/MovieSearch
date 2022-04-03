@@ -17,11 +17,16 @@ import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.*
 import com.hyosik.android.movie.BaseFragment
+import com.hyosik.android.movie.data.model.Movie
 import com.hyosik.android.movie.databinding.FragmentMypageBinding
+import com.hyosik.android.movie.extensions.replaceMultipleBlank
 import com.hyosik.android.movie.extensions.toastShort
+import com.hyosik.android.movie.presentation.MainActivity
+import com.hyosik.android.movie.presentation.detail.MovieDetailFragment
 import com.hyosik.android.movie.presentation.home.HomeViewModel
+import com.hyosik.android.movie.presentation.mypage.adapter.MySearchMovieListAdapter
 import com.hyosik.android.movie.presentation.mypage.state.MypageState
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
@@ -40,11 +45,46 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     lateinit var auth : FirebaseAuth
 
     @Inject
+    lateinit var userDB : DatabaseReference
+
+    @Inject
     lateinit var callbackManager : CallbackManager
+
+    private val movieList = mutableListOf<Movie>()
 
     private val viewModel: MyPageViewModel by viewModels()
 
     private val isVisibilityGroup = true
+
+    private lateinit var mySearchMovieListAdapter: MySearchMovieListAdapter
+
+    private val childEventListener = object : ChildEventListener {
+        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            val movie = snapshot.getValue(Movie::class.java)
+            movie ?: return
+            movieList.add(movie)
+            mySearchMovieListAdapter.submitList(mutableListOf<Movie>().apply {
+                addAll(movieList)
+            })
+        }
+
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onChildRemoved(snapshot: DataSnapshot) {
+            val movie = snapshot.getValue(Movie::class.java)
+            movieList.remove(movie)
+            mySearchMovieListAdapter.submitList(mutableListOf<Movie>().apply {
+                addAll(movieList)
+            })
+        }
+
+        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+        }
+    }
 
     override fun getViewBinding(): FragmentMypageBinding = FragmentMypageBinding.inflate(layoutInflater)
 
@@ -75,7 +115,24 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
                 loginButton.isEnabled = !enabled
             }
         }
-
+        mySearchMovieListAdapter = MySearchMovieListAdapter()
+        mySearchMovieListAdapter.setCloseClickListener { movie ->
+            viewModel.deleteSeeMovie(movie = movie)
+        }
+        mySearchMovieListAdapter.setItemClickListener { movie ->
+            (activity as MainActivity).supportFragmentManager.fragments.find { it is MovieDetailFragment }
+                ?.let {
+                    (it as MovieDetailFragment).setMovie(
+                        movie.image,
+                        movie.actor,
+                        movie.pubDate,
+                        movie.userRating,
+                        movie.title.replaceMultipleBlank("<b>","</b>")
+                    )
+                }
+        }
+        mySearchMovieListRecyclerView.adapter = mySearchMovieListAdapter
+        if(auth.currentUser != null) userDB.child(auth.currentUser!!.uid).child("see").addChildEventListener(childEventListener)
     }
 
     private fun observeData() = with(binding) {
@@ -160,12 +217,19 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
             return@with
         }
         setVisibleViewGroup()
+        setUserDBListener()
         signUpButton.isEnabled = false
         loginButton.isEnabled = false
         idEditTextView.text?.clear()
         pwEditTextView.text?.clear()
         idEditTextView.isEnabled = false
         pwEditTextView.isEnabled = false
+    }
+
+    private fun setUserDBListener() {
+        movieList.clear()
+        userDB.child(auth.currentUser!!.uid).child("see").removeEventListener(childEventListener)
+        userDB.child(auth.currentUser!!.uid).child("see").addChildEventListener(childEventListener)
     }
 
     private fun setVisibleViewGroup() = with(binding) {
@@ -184,6 +248,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
     }
 
     private fun initLogout() = with(binding) {
+
         logOutButton.setOnClickListener {
             auth.currentUser?.providerData?.forEach { userInfo ->
                 when(userInfo.providerId) {
@@ -202,7 +267,14 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>() {
             loginButton.isEnabled = false
             idEditTextView.isEnabled = true
             pwEditTextView.isEnabled = true
+            movieList.clear()
+            mySearchMovieListAdapter.submitList(mutableListOf<Movie>())
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if(auth.currentUser != null) userDB.child(auth.currentUser!!.uid).child("see").removeEventListener(childEventListener)
     }
 
 }

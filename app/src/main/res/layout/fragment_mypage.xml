@@ -18,7 +18,7 @@
         android:id="@+id/logoutViewGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="logOutButton,emailTitleTextView,emailTextView,mySearchTextView"
+        app:constraint_referenced_ids="logOutButton,emailTitleTextView,emailTextView,mySearchTextView,mySearchMovieListRecyclerView"
         android:visibility="gone"
         tools:visibility="visible"
         />
@@ -164,6 +164,19 @@
         android:textSize="15sp"
         android:textStyle="bold"
         />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mySearchMovieListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintTop_toBottomOf="@+id/mySearchTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="25dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_my_movie"
+        />
+
 
     <ProgressBar
         android:id="@+id/progressBar"

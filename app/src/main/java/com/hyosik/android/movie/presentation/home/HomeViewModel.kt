@@ -2,7 +2,9 @@ package com.hyosik.android.movie.presentation.home
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.hyosik.android.movie.data.model.Movie
 import com.hyosik.android.movie.domain.GetMovieDtoUseCase
+import com.hyosik.android.movie.domain.InsertSeeMovieUseCase
 import com.hyosik.android.movie.presentation.home.state.MovieState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -13,7 +15,8 @@ import javax.inject.Named
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getMovieDtoUseCase: GetMovieDtoUseCase
+    private val getMovieDtoUseCase: GetMovieDtoUseCase,
+    private val insertSeeMovieUseCase: InsertSeeMovieUseCase
 ) : ViewModel() {
 
     private var _movieListStateFlow = MutableStateFlow<MovieState>(MovieState.UnInitialized)
@@ -33,6 +36,10 @@ class HomeViewModel @Inject constructor(
             .collect { movieDTO ->
                 _movieListStateFlow.value = MovieState.Success(movieDTO)
             }
+    }
+
+    fun saveSeeMovie(movie: Movie) = viewModelScope.launch {
+        insertSeeMovieUseCase(movie = movie)
     }
 
 }

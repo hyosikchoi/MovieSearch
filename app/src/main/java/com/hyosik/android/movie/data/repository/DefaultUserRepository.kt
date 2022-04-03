@@ -7,6 +7,10 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
+import com.hyosik.android.movie.data.model.Movie
+import com.hyosik.android.movie.extensions.replaceBlank
+import com.hyosik.android.movie.extensions.replaceMultipleBlank
+
 import com.hyosik.android.movie.extensions.toastShort
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -48,6 +52,18 @@ class DefaultUserRepository @Inject constructor(
                 emit(firebaseUser)
             }
         }
+
+    override suspend fun insertSeeMovie(movie: Movie) {
+        val userId = auth.currentUser?.uid.orEmpty()
+        val insertUserDB = userDB.child(userId).child("see").child("${movie.title.replaceBlank(".").replaceMultipleBlank("<b>","</b>")}${movie.pubDate.replaceBlank(".")}${movie.userRating.replaceBlank(".")}")
+        insertUserDB.setValue(movie)
+    }
+
+    override suspend fun deleteSeeMovie(movie: Movie) {
+        val userId = auth.currentUser?.uid.orEmpty()
+        val deleteUserDB = userDB.child(userId).child("see").child("${movie.title.replaceBlank(".").replaceMultipleBlank("<b>","</b>")}${movie.pubDate.replaceBlank(".")}${movie.userRating.replaceBlank(".")}")
+        deleteUserDB.removeValue()
+    }
 
     private fun saveUserDB(firebaseUser: FirebaseUser) {
         val userId = firebaseUser.uid.orEmpty()
